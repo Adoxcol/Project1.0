@@ -45,6 +45,27 @@ const server = http.createServer((req, res) => {
   }
 });
 
+if(method === 'POST' && url === '/project/new') {
+    let body= '';
+
+    req.on('data', chunk => {
+        body += chunk.toString();
+    })
+}
+
+req.on('end', () => {
+    const parsedbody = new URLSearchParams(body);
+    const title = parsedbody.get('title');
+    const description = parsedbody.get('description');
+    
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(`
+        <h1>New Project Added</h1>
+        <p>Title: ${title}</p>
+        <p>Description: ${description}</p>
+    `);
+})
+
 const port = 3000;
 server.listen(PORT,() => {
     console.log(`Server running on port ${port}`);
