@@ -54,9 +54,9 @@ if(method === 'POST' && url === '/project/new') {
 }
 
 req.on('end', () => {
-    const parsedbody = new URLSearchParams(body);
-    const title = parsedbody.get('title');
-    const description = parsedbody.get('description');
+    const parsedBody = new URLSearchParams(body);
+    const title = parsedBody.get('title');
+    const description = parsedBody.get('description');
     
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.end(`
