@@ -25,6 +25,11 @@ const server = http.createServer((req, res) => {
           case '/route2':
               filePath = path.join(__dirname, 'public', 'file3.html');
               break;
+              default:
+                
+                filePath = path.join(__dirname, 'public', '404.html'); // Serve a 404 page
+                res.writeHead(404, { 'Content-Type': 'text/html' });
+                break;
           
       }
 
