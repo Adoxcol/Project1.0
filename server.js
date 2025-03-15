@@ -38,33 +38,38 @@ const server = http.createServer((req, res) => {
               res.end(data);
           }
       });
-  } else {
+    }
+      else if (method === 'POST' && url === '/project/new') {
+        let body = '';
+    
+        
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+    
+        
+        req.on('end', () => {
+            const parsedBody = new URLSearchParams(body);
+            const title = parsedBody.get('title');
+            const description = parsedBody.get('description');
+    
+            
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.end(`
+                <h1>New Project Added</h1>
+                <p>Title: ${title}</p>
+                <p>Description: ${description}</p>
+            `);
+        });
+    }
+   else {
      
       res.writeHead(405, { 'Content-Type': 'text/plain' });
       res.end('Method Not Allowed');
   }
 });
 
-if(method === 'POST' && url === '/project/new') {
-    let body= '';
 
-    req.on('data', chunk => {
-        body += chunk.toString();
-    })
-}
-
-req.on('end', () => {
-    const parsedBody = new URLSearchParams(body);
-    const title = parsedBody.get('title');
-    const description = parsedBody.get('description');
-    
-    res.writeHead(200, { 'Content-Type': 'text/html' });
-    res.end(`
-        <h1>New Project Added</h1>
-        <p>Title: ${title}</p>
-        <p>Description: ${description}</p>
-    `);
-})
 
 const port = 3000;
 server.listen(PORT,() => {
